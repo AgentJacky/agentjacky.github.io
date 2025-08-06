@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#1a1b26" />
+    <title>My Tiny Web Nook</title>
+    <meta name="description" content="A cozy, retro-styled corner of the web. Welcome to my Neocities!" />
+    <style>
+      :root {
+        --bg: #0d0f15;
+        --bg-soft: #121522;
+        --bg-softer: #161a2a;
+        --text: #e6eaf2;
+        --muted: #a7b0c3;
+        --accent: #7aa2f7;
+        --accent-2: #9ece6a;
+        --accent-3: #f7768e;
+        --border: #2a3050;
+        --glow: 0 0 18px rgba(122, 162, 247, 0.45);
+      }
+
+      [data-theme="light"] {
+        --bg: #f5f7ff;
+        --bg-soft: #ffffff;
+        --bg-softer: #f0f3ff;
+        --text: #171821;
+        --muted: #515769;
+        --accent: #3a5bff;
+        --accent-2: #278452;
+        --accent-3: #cc2f58;
+        --border: #d9def5;
+        --glow: 0 0 14px rgba(58, 91, 255, 0.25);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(1200px 600px at 80% -10%, rgba(122,162,247,0.12), transparent 60%),
+          radial-gradient(900px 500px at -10% 80%, rgba(158,206,106,0.10), transparent 60%),
+          linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+        color: var(--text);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+        line-height: 1.55;
+        image-rendering: pixelated;
+      }
+
+      .page-wrap {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 16px;
+        max-width: 1100px;
+        margin: 24px auto;
+        padding: 0 16px 24px;
+      }
+
+      @media (max-width: 860px) {
+        .page-wrap {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .card {
+        background: var(--bg-soft);
+        border: 2px solid var(--border);
+        box-shadow: var(--glow), inset 0 0 0 1px rgba(255,255,255,0.03);
+        border-radius: 10px;
+      }
+
+      .frame {
+        padding: 14px 16px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, var(--bg-softer), var(--bg-soft));
+        border: 1px solid var(--border);
+      }
+
+      header.site-header {
+        grid-column: 1 / -1;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .starfield {
+        position: absolute;
+        inset: 0;
+        background-image:
+          radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.7) 99%, transparent 100%),
+          radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.4) 99%, transparent 100%),
+          radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.6) 99%, transparent 100%),
+          radial-gradient(1px 1px at 90% 20%, rgba(255,255,255,0.5) 99%, transparent 100%);
+        animation: twinkle 6s linear infinite;
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      @keyframes twinkle {
+        0%, 100% { filter: brightness(0.8); }
+        50% { filter: brightness(1.2); }
+      }
+
+      .title {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px;
+      }
+
+      .title h1 {
+        margin: 0;
+        font-size: 28px;
+        letter-spacing: 0.5px;
+        text-shadow: 0 0 16px rgba(122,162,247,0.45), 0 0 2px rgba(122,162,247,0.6);
+      }
+
+      .title small {
+        color: var(--muted);
+      }
+
+      .toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        background: var(--bg-softer);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .columns {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 860px) {
+        .columns {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      nav.sidebar {
+        position: sticky;
+        top: 12px;
+        height: max-content;
+      }
+
+      nav.sidebar .nav-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: var(--accent);
+      }
+
+      .nav {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 8px;
+      }
+
+      .nav a {
+        display: block;
+        text-decoration: none;
+        color: var(--text);
+        background: linear-gradient(180deg, var(--bg-softer), var(--bg-soft));
+        border: 1px solid var(--border);
+        padding: 10px 12px;
+        border-radius: 8px;
+        transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+      }
+
+      .nav a:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--glow);
+        border-color: color-mix(in hsl, var(--border), var(--accent) 35%);
+      }
+
+      main.content {
+        display: grid;
+        gap: 16px;
+      }
+
+      .marquee {
+        overflow: hidden;
+        white-space: nowrap;
+        border: 1px dashed var(--border);
+        background: repeating-linear-gradient(45deg, var(--bg-softer) 0 12px, transparent 12px 24px);
+        color: var(--accent-2);
+        padding: 8px 10px;
+        border-radius: 8px;
+        mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      }
+
+      .marquee span {
+        display: inline-block;
+        padding-left: 100%;
+        animation: scroll-left 18s linear infinite;
+      }
+
+      @keyframes scroll-left {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+      }
+
+      .post {
+        display: grid;
+        gap: 8px;
+      }
+
+      h2.section-title {
+        margin: 0 0 6px 0;
+        font-size: 18px;
+        color: var(--accent);
+      }
+
+      .updates {
+        display: grid;
+        gap: 8px;
+      }
+
+      .updates .item {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 12px;
+        align-items: start;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: linear-gradient(180deg, var(--bg-softer), transparent);
+      }
+
+      @media (max-width: 520px) {
+        .updates .item {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stamp {
+        color: var(--muted);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .statusbar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      @media (max-width: 640px) {
+        .statusbar {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .statusbar .chip {
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--muted);
+        background: linear-gradient(180deg, var(--bg-softer), var(--bg-soft));
+      }
+
+      .grid-two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .grid-two {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .b88 {
+        height: 31px;
+        width: 88px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        background: linear-gradient(180deg, var(--bg-softer), var(--bg-soft));
+        color: var(--muted);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        text-decoration: none;
+        box-shadow: inset 0 -1px 0 rgba(255,255,255,0.06);
+      }
+
+      a {
+        color: var(--accent);
+      }
+
+      footer.site-footer {
+        grid-column: 1 / -1;
+        text-align: center;
+        color: var(--muted);
+        padding: 18px 10px 28px;
+      }
+
+      .hr {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--border), transparent);
+        margin: 6px 0 12px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-wrap">
+      <header class="site-header card">
+        <div class="starfield"></div>
+        <div class="title">
+          <div>
+            <h1>My Tiny Web Nook</h1>
+            <small>Welcome, traveller of the infosphere ☆</small>
+          </div>
+          <button class="toggle" id="themeToggle" aria-label="Toggle theme">
+            <span id="themeLabel">Dark</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path id="iconPath" d="M12 3a9 9 0 100 18 9 9 0 000-18z" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="columns">
+        <nav class="sidebar card frame" aria-label="Sidebar">
+          <div class="nav-title">Navigate</div>
+          <ul class="nav">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#updates">Updates</a></li>
+            <li><a href="#links">Cool Links</a></li>
+            <li><a href="#guestbook">Guestbook</a></li>
+          </ul>
+
+          <div class="hr"></div>
+
+          <div class="nav-title">Now</div>
+          <div class="statusbar">
+            <div class="chip">Listening: Vaporwave radio</div>
+            <div class="chip">Reading: Old web zines</div>
+            <div class="chip">Mood: Cozy</div>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="nav-title">Buttons</div>
+          <div class="badges">
+            <a class="b88" href="https://neocities.org/" target="_blank" rel="noopener">neocities</a>
+            <a class="b88" href="#" title="Made with love">hand-made</a>
+            <a class="b88" href="#" title="No cookies">no cookies</a>
+            <a class="b88" href="#" title="Best viewed on the web">best viewed</a>
+            <a class="b88" href="#" title="HTML & CSS">html+css</a>
+            <a class="b88" href="#" title="Validator-ish">valid-ish</a>
+          </div>
+        </nav>
+
+        <main class="content">
+          <section id="home" class="card frame">
+            <div class="marquee"><span>Welcome to my corner of the web — pull up a chair, sip some tea, and enjoy the vibes ★彡</span></div>
+            <div class="post">
+              <h2 class="section-title">Hello, World Wide Web!</h2>
+              <p>
+                You found my tiny web nook. I build things, collect links, and post updates here like it's 1999.
+                This site is intentionally minimal, a little whimsical, and proudly JavaScript-light.
+              </p>
+              <p>
+                Poke around the navigation, sign the <a href="#guestbook">guestbook</a>, and snag a button below if you link back.
+              </p>
+            </div>
+          </section>
+
+          <section id="updates" class="card frame">
+            <h2 class="section-title">Latest Updates</h2>
+            <div class="updates" id="updatesList">
+              <div class="item">
+                <div class="stamp">2025‑08‑12</div>
+                <div>Launched the new layout with a starfield header and a gentle glow. Added a theme toggle and some 88×31‑style buttons.</div>
+              </div>
+              <div class="item">
+                <div class="stamp">2025‑08‑05</div>
+                <div>Wrote a short post about collecting web rings and why small personal sites still matter.</div>
+              </div>
+              <div class="item">
+                <div class="stamp">2025‑07‑21</div>
+                <div>Created a mini link garden and cleaned up some styles for better readability.</div>
+              </div>
+            </div>
+          </section>
+
+          <section id="about" class="grid-two">
+            <div class="card frame">
+              <h2 class="section-title">About Me</h2>
+              <p>
+                Hi! I'm a curious human who loves the open web, tiny websites, and making delightful little experiences.
+                I write, design, and tinker. This site is my digital living room.
+              </p>
+              <p>
+                If you're into personal sites, bring your own vibe and make one. The internet needs more of them.
+              </p>
+            </div>
+            <div class="card frame">
+              <h2 class="section-title">Site Info</h2>
+              <ul>
+                <li>Host: <a href="https://neocities.org/" target="_blank" rel="noopener">Neocities</a></li>
+                <li>Built with: HTML + CSS, a sprinkle of JS</li>
+                <li>Last rebuild: <span id="lastBuilt">—</span></li>
+                <li>Theme: <span id="themeStatus">dark</span></li>
+              </ul>
+            </div>
+          </section>
+
+          <section id="links" class="card frame">
+            <h2 class="section-title">Cool Links</h2>
+            <p>Some places to explore:</p>
+            <ul>
+              <li><a href="https://oceanfront.neocities.org/" target="_blank" rel="noopener">oceanfront</a> — minimalist waves</li>
+              <li><a href="https://toribytez.neocities.org/" target="_blank" rel="noopener">toribytez</a> — colorful bytes and vibes</li>
+              <li><a href="https://twelvemen.neocities.org/" target="_blank" rel="noopener">twelvemen</a> — experiments and curios</li>
+            </ul>
+          </section>
+
+          <section id="guestbook" class="card frame">
+            <h2 class="section-title">Guestbook</h2>
+            <p>
+              Say hi! For now this is a DIY guestbook — it stores entries in your browser only (no server).
+              If you want a real one, hook up a form to a service later.
+            </p>
+            <form id="gbForm" autocomplete="off">
+              <div style="display:grid; gap:8px; grid-template-columns: 1fr 1fr; margin-bottom: 8px;">
+                <input class="frame" style="padding:10px;" required name="name" placeholder="Name" />
+                <input class="frame" style="padding:10px;" name="site" placeholder="Website (optional)" />
+              </div>
+              <textarea class="frame" style="padding:10px; width:100%; min-height:90px;" required name="message" placeholder="Your message..."></textarea>
+              <div style="display:flex; gap:8px; margin-top:8px;">
+                <button type="submit" class="toggle" style="border-radius:8px;">Sign</button>
+                <button type="button" id="clearGb" class="toggle" style="border-radius:8px;">Clear (local)</button>
+              </div>
+            </form>
+            <div class="hr"></div>
+            <div id="gbEntries" style="display:grid; gap:10px;"></div>
+          </section>
+        </main>
+      </div>
+
+      <footer class="site-footer">
+        <div>© <span id="year">2025</span> • Made with care. <span title="Not a real counter">Visitor #<span id="counter">0001</span></span></div>
+      </footer>
+    </div>
+
+    <script>
+      (function setupTheme() {
+        const htmlElement = document.documentElement;
+        const themeToggleButton = document.getElementById('themeToggle');
+        const themeLabelSpan = document.getElementById('themeLabel');
+        const themeStatusSpan = document.getElementById('themeStatus');
+
+        function getPreferredTheme() {
+          const stored = localStorage.getItem('site-theme');
+          if (stored === 'light' || stored === 'dark') return stored;
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          return prefersDark ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+          htmlElement.setAttribute('data-theme', theme);
+          localStorage.setItem('site-theme', theme);
+          const label = theme === 'dark' ? 'Dark' : 'Light';
+          if (themeLabelSpan) themeLabelSpan.textContent = label;
+          if (themeStatusSpan) themeStatusSpan.textContent = theme;
+        }
+
+        const startTheme = getPreferredTheme();
+        applyTheme(startTheme);
+
+        themeToggleButton?.addEventListener('click', () => {
+          const next = htmlElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          applyTheme(next);
+        });
+      })();
+
+      (function initMeta() {
+        const yearSpan = document.getElementById('year');
+        const builtSpan = document.getElementById('lastBuilt');
+        const now = new Date();
+        yearSpan && (yearSpan.textContent = String(now.getFullYear()));
+        builtSpan && (builtSpan.textContent = now.toISOString().slice(0, 10));
+      })();
+
+      (function setupCounter() {
+        const key = 'site-visit-count';
+        let count = Number(localStorage.getItem(key) || '0');
+        count += 1;
+        localStorage.setItem(key, String(count));
+        const pad = (n) => String(n).padStart(4, '0');
+        const el = document.getElementById('counter');
+        el && (el.textContent = pad(count));
+      })();
+
+      (function guestbook() {
+        /**
+         * Lightweight, localStorage-only guestbook; entries live in the user's browser.
+         */
+        const STORAGE_KEY = 'site-guestbook-entries';
+        const form = document.getElementById('gbForm');
+        const clearButton = document.getElementById('clearGb');
+        const list = document.getElementById('gbEntries');
+
+        function loadEntries() {
+          try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) return [];
+            const arr = JSON.parse(raw);
+            return Array.isArray(arr) ? arr : [];
+          } catch (_) {
+            return [];
+          }
+        }
+
+        function saveEntries(entries) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+        }
+
+        function renderEntries(entries) {
+          if (!list) return;
+          list.innerHTML = '';
+          if (entries.length === 0) {
+            const empty = document.createElement('div');
+            empty.className = 'frame';
+            empty.textContent = 'No entries yet. Be the first to say hi!';
+            list.appendChild(empty);
+            return;
+          }
+          for (const entry of entries) {
+            const item = document.createElement('div');
+            item.className = 'frame';
+            item.style.display = 'grid';
+            item.style.gap = '6px';
+
+            const head = document.createElement('div');
+            head.style.display = 'flex';
+            head.style.justifyContent = 'space-between';
+            head.style.alignItems = 'baseline';
+
+            const who = document.createElement('strong');
+            who.textContent = entry.name || 'Anonymous';
+
+            const when = document.createElement('span');
+            when.style.color = 'var(--muted)';
+            when.style.fontSize = '12px';
+            when.textContent = new Date(entry.time).toISOString().replace('T', ' ').slice(0, 16);
+
+            head.appendChild(who);
+            head.appendChild(when);
+
+            const msg = document.createElement('div');
+            msg.textContent = entry.message;
+
+            item.appendChild(head);
+            if (entry.site) {
+              const link = document.createElement('a');
+              link.href = entry.site;
+              link.target = '_blank';
+              link.rel = 'noopener';
+              link.textContent = entry.site;
+              link.style.fontSize = '12px';
+              item.appendChild(link);
+            }
+            item.appendChild(msg);
+
+            list.appendChild(item);
+          }
+        }
+
+        function onSubmit(event) {
+          event.preventDefault();
+          const formData = new FormData(form);
+          const name = String(formData.get('name') || '').trim();
+          const site = String(formData.get('site') || '').trim();
+          const message = String(formData.get('message') || '').trim();
+          if (!message) return;
+
+          const entries = loadEntries();
+          entries.unshift({ name, site, message, time: Date.now() });
+          saveEntries(entries);
+          renderEntries(entries);
+          form.reset();
+        }
+
+        function onClear() {
+          if (!confirm('Clear guestbook entries stored on this device?')) return;
+          saveEntries([]);
+          renderEntries([]);
+        }
+
+        form && form.addEventListener('submit', onSubmit);
+        clearButton && clearButton.addEventListener('click', onClear);
+        renderEntries(loadEntries());
+      })();
+    </script>
+  </body>
+</html>
